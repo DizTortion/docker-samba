@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -14,4 +14,4 @@ EXPOSE 445
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["/usr/sbin/smbd", "--foreground", "--log-stdout"]
+CMD ["/usr/sbin/smbd", "--foreground", "--log-stdout", "--no-process-group"]
