@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:stable-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
