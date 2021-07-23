@@ -1,9 +1,15 @@
 kind: pipeline
-type: kubernetes
+type: docker
 name: default
 
 steps:
-  - name: image
+  - name: tag image
+    image: debian:bullseye-slim
+    commands:
+      - apt-get update
+      - apt-cache show samba | grep Version | awk '{print $2}' > .tags
+      - echo ",latest" >> .tags
+  - name: docker
     image: plugins/docker
     settings:
       repo: harbor.home.hoffmeister.biz/diztortion/samba
@@ -12,8 +18,3 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
-      tags: latest
-      auto_tag: true
-    when:
-      branch:
-        - master
