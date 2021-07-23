@@ -7,7 +7,7 @@ steps:
     image: debian:bullseye-slim
     commands:
       - apt-get update
-      - apt-cache show samba | grep Version | awk '{print $2}' | sed 's/^[^:]*://g' > .tags
+      - apt-cache show samba | grep Version | awk '{print $2}' | sed -e 's/^[^:]*://g' -e 's/\+dfsg//g' > .tags
       - echo ",latest" >> .tags
   - name: docker
     image: plugins/docker
