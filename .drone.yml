@@ -4,13 +4,13 @@ name: default
 
 steps:
   - name: tag image
-    image: debian:bullseye-slim
+    image: harbor.home.hoffmeister.biz/docker.io-cache/library/debian:bullseye-slim
     commands:
       - apt-get update
       - apt-cache show samba | grep Version | awk '{print $2}' | sed -e 's/^[^:]*://g' -e 's/\+dfsg//g' > .tags
       - echo ",latest" >> .tags
   - name: docker
-    image: plugins/docker
+    image: harbor.home.hoffmeister.biz/docker.io-cache/plugins/kaniko
     settings:
       repo: harbor.home.hoffmeister.biz/diztortion/samba
       registry: harbor.home.hoffmeister.biz
