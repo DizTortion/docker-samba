@@ -7,7 +7,7 @@ steps:
     image: harbor.home.hoffmeister.biz/docker.io-cache/library/debian:bullseye-slim
     commands:
       - apt-get update
-      - apt-cache show samba | grep Version | awk '{print $2}' | sed -e 's/^[^:]*://g' -e 's/\+dfsg//g' > .tags
+      - apt-cache show samba | grep Version | head -n 1 | awk '{print $2}' > .tags
       - echo ",latest" >> .tags
   - name: docker
     image: harbor.home.hoffmeister.biz/docker.io-cache/plugins/kaniko
