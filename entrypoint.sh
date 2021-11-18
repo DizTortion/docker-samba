@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
-/usr/sbin/groupadd -g ${GROUP_ID:-1000} $CIFS_USERNAME
-/usr/sbin/useradd -u ${USER_ID:-1000} -g ${GROUP_ID:-1000} --no-create-home -s /sbin/nologin $CIFS_USERNAME 
+/usr/sbin/addgroup --gid ${GROUP_ID:-1000} $CIFS_USERNAME
+/usr/sbin/adduser --uid ${USER_ID:-1000} --ingroup $CIFS_USERNAME --no-create-home --shell /sbin/nologin --disabled-password $CIFS_USERNAME
 
 echo -ne "$CIFS_PASSWORD\n$CIFS_PASSWORD\n" | smbpasswd -a -s $CIFS_USERNAME
 
