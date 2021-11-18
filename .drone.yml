@@ -4,11 +4,10 @@ name: default
 
 steps:
   - name: tag image
-    image: harbor.home.hoffmeister.biz/docker.io-cache/library/debian:bullseye-slim
+    image: harbor.home.hoffmeister.biz/docker.io-cache/library/alpine
     commands:
-      - apt-get update
-      - apt-cache show samba | grep Version | head -n 1 | awk '{print $2}' > .tags
-      - echo ",latest" >> .tags
+      - apk update
+      - apk info ${PACKAGE_NAME} | grep \"installed size:\" | sed -E 's/.+-(\d+\.\d+(\.\d+)?-r\d+) installed size:/\1/'" > .tags
   - name: docker
     image: harbor.home.hoffmeister.biz/docker.io-cache/plugins/kaniko
     settings:
