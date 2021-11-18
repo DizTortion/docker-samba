@@ -1,12 +1,8 @@
-FROM debian:bullseye-slim
+FROM alpine
 
-ARG DEBIAN_FRONTEND=noninteractive
+ARG TAG
 
-RUN apt-get update \
- && apt-get install -y \
-    samba \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache samba=$TAG
 
 COPY ./entrypoint.sh /
 
