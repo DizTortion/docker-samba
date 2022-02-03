@@ -10,4 +10,4 @@ EXPOSE 445
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["/usr/sbin/smbd", "--foreground", "--log-stdout", "--no-process-group"]
+CMD ["/usr/sbin/smbd", "--foreground", "--no-process-group", "--debug-stdout"]
