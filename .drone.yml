@@ -3,11 +3,6 @@ type: docker
 name: default
 
 steps:
-  - name: tag image
-    image: harbor.home.hoffmeister.biz/docker.io-cache/library/alpine
-    commands:
-      - apk update
-      - apk info samba | grep "installed size:" | sed -E 's/.+-(\d+\.\d+(\.\d+)?-r\d+) installed size:/\1/' > .tags
   - name: docker
     image: harbor.home.hoffmeister.biz/docker.io-cache/plugins/kaniko
     settings:
@@ -17,3 +12,15 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
+  - name: docker
+    image: harbor.home.hoffmeister.biz/diztortion/podman
+    environment:
+      HARBOR_USERNAME:
+        from_secret: docker_username
+      HARBOR_PASSWORD:
+        from_secret: docker_password
+    commands:
+      - podman info
+      - echo ${HARBOR_PASSWORD} | podman login --username ${HARBOR_USERNAME} --password-stdin harbor.home.hoffmeister.biz
+      - podman build . --tag harbor.home.hoffmeister.biz/diztortion/samba
+      - podman push harbor.home.hoffmeister.biz/diztortion/samba
