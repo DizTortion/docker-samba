@@ -1,26 +1,17 @@
 kind: pipeline
-type: docker
+type: kubernetes
 name: default
 
 steps:
-  - name: docker
-    image: harbor.home.hoffmeister.biz/docker.io-cache/plugins/kaniko
-    settings:
-      repo: harbor.home.hoffmeister.biz/diztortion/samba
-      registry: harbor.home.hoffmeister.biz
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-  - name: podman
+  - name: build
     image: harbor.home.hoffmeister.biz/diztortion/podman:alpine
+    pull: always
     environment:
       HARBOR_USERNAME:
         from_secret: docker_username
       HARBOR_PASSWORD:
         from_secret: docker_password
     commands:
+      - echo $HARBOR_PASSWORD | podman login --username $HARBOR_USERNAME --password-stdin harbor.home.hoffmeister.biz
       - podman info
-      - echo ${HARBOR_PASSWORD} | podman login --username ${HARBOR_USERNAME} --password-stdin harbor.home.hoffmeister.biz
-      - podman build . --tag harbor.home.hoffmeister.biz/diztortion/samba
-      - podman push harbor.home.hoffmeister.biz/diztortion/samba
+      - make
