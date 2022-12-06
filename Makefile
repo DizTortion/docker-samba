@@ -1,5 +1,5 @@
 REGISTRY=harbor.home.hoffmeister.biz
-IMAGE=diztortion/samba
+IMAGE=alpine-images/samba
 REGISTRY_IMAGE=${REGISTRY}/${IMAGE}
 
 PACKAGE_NAME=samba
